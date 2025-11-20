@@ -7,6 +7,8 @@ import com.example.Expense.Management.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+
 @Service
 public class UserService {
     @Autowired
@@ -32,5 +34,10 @@ public class UserService {
 
         userRepo.save(user);
         return "User Created!!! User Id : " + username + "\nSave it for future use!!";
+    }
+
+    public String getUsername(Principal principal){
+        User user = userRepo.findByUsername(principal.getName()).orElse(null);
+        return user.getFirstName().toUpperCase() + " " + user.getLastName().toUpperCase();
     }
 }

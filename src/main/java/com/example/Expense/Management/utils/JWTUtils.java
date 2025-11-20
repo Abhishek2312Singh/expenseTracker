@@ -18,7 +18,7 @@ public class JWTUtils {
     public String generateToken(String username){
         return Jwts.builder()
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 5))
+                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 1))
                 .subject(username)
                 .signWith(KEY, SignatureAlgorithm.HS256)
                 .compact();
@@ -30,7 +30,6 @@ public class JWTUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        System.out.println("getUSername");
         return body.getSubject();
     }
     public Boolean validateToken(UserDetails userDetails, String token){
@@ -39,7 +38,6 @@ public class JWTUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        System.out.println("Validate Token");
         return (userDetails.getUsername().equals(body.getSubject()) && body.getExpiration().after(new Date()));
     }
 }

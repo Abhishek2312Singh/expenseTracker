@@ -23,17 +23,6 @@ public class ExpenseService {
     private ExpenseRepo expenseRepo;
     @Autowired
     private UserRepo userRepo;
-//    public String addExpense(ExpenseInputDto expenseInputDto){
-//        Expense expense = new Expense();
-//        expense.setUser(new User(expenseInputDto.getUsername(), expenseInputDto.getMobile()));
-//        expense.setExpenseName(expenseInputDto.getExpenseName());
-//        expense.setDate(new Date());
-//        expense.setAmount(expenseInputDto.getAmount());
-//        expense.setPaymentMode(expenseInputDto.getPaymentMode());
-//
-//        expenseRepo.save(expense);
-//        return "Expense Added!!";
-//    }
 
     public String addExpense(ExpenseInputDto expenseInputDto, Principal principal){
         Expense expense = new Expense();
@@ -46,16 +35,19 @@ public class ExpenseService {
         return "Expense Added!!!!";
     }
 
-    public ExpenseOutputDto getExpenseById(Long id){
-        Expense expense = expenseRepo.findById(id).orElse(null);
-        ExpenseOutputDto expenseOutputDto = new ExpenseOutputDto();
-        expenseOutputDto.setExpenseName(expense.getExpenseName());
-        expenseOutputDto.setPaymentMode(expense.getPaymentMode());
-        expenseOutputDto.setId(expense.getId());
-        expenseOutputDto.setDate(expense.getDate());
-        expenseOutputDto.setAmount(expense.getAmount());
-
-        return expenseOutputDto;
+    public List<ExpenseOutputDto> getExpense(Principal principal){
+        List<Expense> expenseList = expenseRepo.findByUser(userRepo.findByUsername(principal.getName()).orElse(null));
+        List<ExpenseOutputDto> expenseOutputDtoList = new ArrayList<>();
+        for(Expense expense : expenseList) {
+            ExpenseOutputDto expenseOutputDto = new ExpenseOutputDto();
+            expenseOutputDto.setExpenseName(expense.getExpenseName());
+            expenseOutputDto.setPaymentMode(expense.getPaymentMode());
+            expenseOutputDto.setId(expense.getId());
+            expenseOutputDto.setDate(expense.getDate());
+            expenseOutputDto.setAmount(expense.getAmount());
+            expenseOutputDtoList.add(expenseOutputDto);
+        }
+        return expenseOutputDtoList;
     }
     public String getTotalAmt(){
         List<Expense> expenseList = expenseRepo.findAll();

@@ -13,17 +13,14 @@ import java.security.Principal;
 import java.util.List;
 
 @RestController
+@CrossOrigin("http://localhost:3000")
 public class ExpenseController {
     @Autowired
     private ExpenseService expenseService;
-    @GetMapping("/getExpense/{id}")
-    public ResponseEntity<ExpenseOutputDto> getExpenseById(@PathVariable Long id){
-        return new ResponseEntity<>(expenseService.getExpenseById(id),HttpStatusCode.valueOf(200));
+    @GetMapping("/getExpense")
+    public ResponseEntity<List<ExpenseOutputDto>> getExpenseById(Principal principal){
+        return ResponseEntity.ok(expenseService.getExpense(principal));
     }
-//    @PostMapping("/addExpense")
-//    public ResponseEntity<String> addExpense(@RequestBody ExpenseInputDto expenseInputDto){
-//        return ResponseEntity.ok(expenseService.addExpense(expenseInputDto));
-//    }
     @GetMapping("/totalExpense")
     public ResponseEntity<String> getTotalExpense(){
         return  ResponseEntity.ok(expenseService.getTotalAmt());
