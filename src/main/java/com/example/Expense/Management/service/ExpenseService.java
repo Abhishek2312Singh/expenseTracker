@@ -2,12 +2,17 @@ package com.example.Expense.Management.service;
 
 import com.example.Expense.Management.dto.ExpenseInputDto;
 import com.example.Expense.Management.dto.ExpenseOutputDto;
+import com.example.Expense.Management.dto.UserInputDto;
 import com.example.Expense.Management.entity.Expense;
+import com.example.Expense.Management.entity.User;
 import com.example.Expense.Management.enums.PaymentMode;
 import com.example.Expense.Management.repository.ExpenseRepo;
+import com.example.Expense.Management.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,15 +21,29 @@ import java.util.List;
 public class ExpenseService {
     @Autowired
     private ExpenseRepo expenseRepo;
-    public String addExpense(ExpenseInputDto expenseInputDto){
+    @Autowired
+    private UserRepo userRepo;
+//    public String addExpense(ExpenseInputDto expenseInputDto){
+//        Expense expense = new Expense();
+//        expense.setUser(new User(expenseInputDto.getUsername(), expenseInputDto.getMobile()));
+//        expense.setExpenseName(expenseInputDto.getExpenseName());
+//        expense.setDate(new Date());
+//        expense.setAmount(expenseInputDto.getAmount());
+//        expense.setPaymentMode(expenseInputDto.getPaymentMode());
+//
+//        expenseRepo.save(expense);
+//        return "Expense Added!!";
+//    }
+
+    public String addExpense(ExpenseInputDto expenseInputDto, Principal principal){
         Expense expense = new Expense();
-        expense.setExpenseName(expenseInputDto.getExpenseName());
-        expense.setDate(new Date());
+        expense.setExpenseName(expenseInputDto.getUsername());
+        expense.setDate(LocalDate.now());
         expense.setAmount(expenseInputDto.getAmount());
         expense.setPaymentMode(expenseInputDto.getPaymentMode());
-
+        expense.setUser(userRepo.findByUsername(principal.getName()).orElse(null));
         expenseRepo.save(expense);
-        return "Expense Added!!";
+        return "Expense Added!!!!";
     }
 
     public ExpenseOutputDto getExpenseById(Long id){
