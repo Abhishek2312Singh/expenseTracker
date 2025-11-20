@@ -10,6 +10,4 @@ public class ExpenseInputDto {
     private String expenseName;
     private PaymentMode paymentMode;
     private Double amount;
-    private String username;
-    private String mobile;
 }

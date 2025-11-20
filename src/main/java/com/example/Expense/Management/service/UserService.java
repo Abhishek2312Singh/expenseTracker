@@ -26,11 +26,11 @@ public class UserService {
               String.valueOf(userInputDto.getLastName().charAt(0));
 
         Integer count = userRepo.countByUsernameStartingWith(username);
-        username = username + (1001 + count);
+        username = (username + (1001 + count)).toLowerCase();
         user.setUsername(username);
         user.setPassword(config.encoder().encode(userInputDto.getPassword()));
 
         userRepo.save(user);
-        return "User Created!!! User Id : " + username + "Save it for future use!!";
+        return "User Created!!! User Id : " + username + "\nSave it for future use!!";
     }
 }

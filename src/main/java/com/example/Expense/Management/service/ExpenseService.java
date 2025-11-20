@@ -37,7 +37,7 @@ public class ExpenseService {
 
     public String addExpense(ExpenseInputDto expenseInputDto, Principal principal){
         Expense expense = new Expense();
-        expense.setExpenseName(expenseInputDto.getUsername());
+        expense.setExpenseName(expenseInputDto.getExpenseName());
         expense.setDate(LocalDate.now());
         expense.setAmount(expenseInputDto.getAmount());
         expense.setPaymentMode(expenseInputDto.getPaymentMode());

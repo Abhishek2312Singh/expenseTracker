@@ -9,4 +9,5 @@ public class UserInputDto {
     private String email;
     private Long mobile;
     private String password;
+    private String username;
 }
