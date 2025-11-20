@@ -57,8 +57,10 @@ public class ExpenseService {
         }
         return "Rs. " + totalAmt;
     }
-    public List<ExpenseOutputDto> getExpenseByPaymentMode(String paymentMode){
-        List<Expense> expenseList = expenseRepo.findByPaymentMode(PaymentMode.valueOf(paymentMode));
+    public List<ExpenseOutputDto> getExpenseByPaymentMode(String paymentMode,Principal principal){
+        User user = userRepo.findByUsername(principal.getName()).orElseThrow(()->new RuntimeException("User Not Found!!"));
+
+        List<Expense> expenseList = expenseRepo.findByUserAndPaymentMode(user,PaymentMode.valueOf(paymentMode));
         List<ExpenseOutputDto> expenseOutputDtoList = new ArrayList<>();
         for(Expense expense : expenseList){
             ExpenseOutputDto expenseOutputDto = new ExpenseOutputDto();

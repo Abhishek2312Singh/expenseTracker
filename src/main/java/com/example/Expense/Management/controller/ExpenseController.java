@@ -26,8 +26,8 @@ public class ExpenseController {
         return  ResponseEntity.ok(expenseService.getTotalAmt());
     }
     @GetMapping("/paymentMode")
-    public ResponseEntity<List<ExpenseOutputDto>> getExpenseByPaymentMode(@RequestParam String paymentMode){
-        return new ResponseEntity<>(expenseService.getExpenseByPaymentMode(paymentMode), HttpStatusCode.valueOf(200));
+    public ResponseEntity<List<ExpenseOutputDto>> getExpenseByPaymentMode(@RequestParam String paymentMode,Principal principal){
+        return new ResponseEntity<>(expenseService.getExpenseByPaymentMode(paymentMode,principal), HttpStatusCode.valueOf(200));
     }
     @GetMapping("/expenseByRange")
     public ResponseEntity<List<ExpenseOutputDto>> getExpenseByRange(@RequestParam Double minAmt, @RequestParam Double maxAmt){
