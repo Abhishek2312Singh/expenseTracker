@@ -3,10 +3,12 @@ package com.example.Expense.Management.controller;
 import com.example.Expense.Management.dto.ExpenseInputDto;
 import com.example.Expense.Management.dto.ExpenseOutputDto;
 import com.example.Expense.Management.dto.UserInputDto;
+import com.example.Expense.Management.entity.User;
 import com.example.Expense.Management.service.ExpenseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -30,8 +32,8 @@ public class ExpenseController {
         return new ResponseEntity<>(expenseService.getExpenseByPaymentMode(paymentMode,principal), HttpStatusCode.valueOf(200));
     }
     @GetMapping("/expenseByRange")
-    public ResponseEntity<List<ExpenseOutputDto>> getExpenseByRange(@RequestParam Double minAmt, @RequestParam Double maxAmt){
-        return ResponseEntity.ok(expenseService.getByAmtRange(minAmt,maxAmt));
+    public ResponseEntity<List<ExpenseOutputDto>> getExpenseByRange(@RequestParam Double minAmt, @RequestParam Double maxAmt, @AuthenticationPrincipal User user){
+        return ResponseEntity.ok(expenseService.getByAmtRange(minAmt,maxAmt,user));
     }
 
     @PostMapping("/addexpense")

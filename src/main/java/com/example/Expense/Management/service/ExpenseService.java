@@ -9,6 +9,7 @@ import com.example.Expense.Management.enums.PaymentMode;
 import com.example.Expense.Management.repository.ExpenseRepo;
 import com.example.Expense.Management.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -74,8 +75,9 @@ public class ExpenseService {
         }
         return expenseOutputDtoList;
     }
-    public List<ExpenseOutputDto> getByAmtRange(Double minAmt, Double maxAmt){
-        List<Expense> expenseList = expenseRepo.findByAmountBetween(minAmt,maxAmt);
+    public List<ExpenseOutputDto> getByAmtRange(Double minAmt, Double maxAmt, User user){
+//        User user = userRepo.findByUsername(principal.getName()).orElseThrow(()->new UsernameNotFoundException("User Not Found!!!"));
+        List<Expense> expenseList = expenseRepo.findByUserAndAmountBetween(user,minAmt,maxAmt);
         List<ExpenseOutputDto> expenseOutputDtoList = new ArrayList<>();
         for(Expense expense : expenseList){
             ExpenseOutputDto expenseOutputDto = new ExpenseOutputDto();

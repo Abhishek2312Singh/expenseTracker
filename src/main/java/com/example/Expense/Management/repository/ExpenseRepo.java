@@ -12,5 +12,5 @@ import java.util.List;
 public interface ExpenseRepo extends JpaRepository<Expense, Long> {
     List<Expense> findByUser(User user);
     List<Expense> findByUserAndPaymentMode(User user,PaymentMode paymentMode);
-    List<Expense> findByAmountBetween(Double minAmt, Double maxAmt);
+    List<Expense> findByUserAndAmountBetween(User user, Double minAmt, Double maxAmt);
 }

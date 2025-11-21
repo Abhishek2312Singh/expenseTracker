@@ -5,6 +5,7 @@ import com.example.Expense.Management.dto.UserInputDto;
 import com.example.Expense.Management.entity.User;
 import com.example.Expense.Management.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -39,5 +40,17 @@ public class UserService {
     public String getUsername(Principal principal){
         User user = userRepo.findByUsername(principal.getName()).orElse(null);
         return user.getFirstName().toUpperCase() + " " + user.getLastName().toUpperCase();
+    }
+    public String changePassword(String currentPassword, String newPassword, String confirmPassword, User user){
+        User authUser = userRepo.findByUsername(user.getUsername()).orElseThrow(()->new UsernameNotFoundException("User Not Found!!!"));
+        if(config.encoder().matches(currentPassword, authUser.getPassword())){
+            if(newPassword.equals(confirmPassword)){
+                authUser.setPassword(config.encoder().encode(newPassword));
+                userRepo.save(authUser);
+                return "Password changed successfully!!";
+            }
+            return "Confirm Password Doesn't Mached!!";
+        }
+        return "Incorrect Password!!";
     }
 }
