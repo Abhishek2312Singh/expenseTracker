@@ -2,7 +2,6 @@ package com.example.Expense.Management.controller;
 
 import com.example.Expense.Management.dto.UserInputDto;
 import com.example.Expense.Management.entity.User;
-import com.example.Expense.Management.repository.UserRepo;
 import com.example.Expense.Management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

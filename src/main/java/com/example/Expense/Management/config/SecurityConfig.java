@@ -25,17 +25,6 @@ public class SecurityConfig {
     @Autowired
     private JWTFilter jwtFilter;
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/**").allowedOrigins("http://localhost:3000").allowedMethods("*");
-//            }
-//        };
-//    }
-
-
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         return http
@@ -45,8 +34,9 @@ public class SecurityConfig {
                         auth
                                 .requestMatchers(HttpMethod.POST,"/signup").permitAll()
                                 .requestMatchers(HttpMethod.POST,"/login").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/auth/forgotPassword").permitAll()
+                                .requestMatchers(HttpMethod.POST,"/auth/resetPassword").permitAll()
                                 .anyRequest().authenticated())
-//                .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }

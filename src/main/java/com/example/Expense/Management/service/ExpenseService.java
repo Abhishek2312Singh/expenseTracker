@@ -37,7 +37,7 @@ public class ExpenseService {
     }
 
     public List<ExpenseOutputDto> getExpense(Principal principal){
-        List<Expense> expenseList = expenseRepo.findByUser(userRepo.findByUsername(principal.getName()).orElse(null));
+        List<Expense> expenseList = expenseRepo.findByUser(userRepo.findByUsername(principal.getName()).orElseThrow(()->new UsernameNotFoundException("User Not Found!!")));
         List<ExpenseOutputDto> expenseOutputDtoList = new ArrayList<>();
         for(Expense expense : expenseList) {
             ExpenseOutputDto expenseOutputDto = new ExpenseOutputDto();
